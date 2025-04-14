@@ -1,74 +1,38 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
-import joblib
 
+# Cargar el archivo CSV
+data = pd.read_csv("email_phishing_data.csv")
 
-# --------------------------------------------
-# READ THE DATASET
-# --------------------------------------------
-df = pd.read_csv("data/email_phishing_data.csv")
+# Separar las características (X) y la variable objetivo (y)
+X = data.drop("target", axis=1)  # Ajusta 'target' según tu archivo
+y = data["target"]
 
-# --------------------------------------------
-# PREPROCESSING
-# --------------------------------------------
-df["diagnosis"] = df["diagnosis"].apply(lambda x: 1 if x == "M" else 0)
-y = df["diagnosis"]
-X = df.drop(["id", "Unnamed: 32", "diagnosis"], axis=1)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Dividir los datos en conjunto de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# --------------------------------------------
-# PIPELINE
-# --------------------------------------------
-pipeline = Pipeline(steps=[
-    ('scaler', StandardScaler()),
-    ('classifier', LogisticRegression())
-])
+# Crear y entrenar el modelo
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
 
-# --------------------------------------------
-# HYPERPARAMETER OPTIMIZATION
-# --------------------------------------------
-param_grid_logreg = {
-    'classifier__C': [0.1, 1, 10, 100],
-    #'classifier__penalty': ['l1', 'l2']
-}
+# Obtener las probabilidades de predicción
+y_pred_prob = model.predict_proba(X_test)[:, 1]
 
-# --------------------------------------------
-# TRAINING
-# --------------------------------------------
-grid_search_log_reg = GridSearchCV(pipeline, param_grid_logreg, cv=5, n_jobs=-1)
-grid_search_log_reg.fit(X_train, y_train)
+# Calcular las métricas ROC y AUC
+fpr, tpr, _ = roc_curve(y_test, y_pred_prob)
+roc_auc = auc(fpr, tpr)
 
-# --------------------------------------------
-# BEST MODEL SELECTION
-# --------------------------------------------
-best_params = grid_search_log_reg.best_params_
-best_model = grid_search_log_reg.best_estimator_
-coefficients = best_model.named_steps['classifier'].coef_[0]
-feature_names = X_train.columns
+print(f"Métricas AUC: {roc_auc}")
 
-plt.figure(figsize=(10, 6))
-plt.barh(feature_names, coefficients, color='skyblue')
-plt.xlabel('Coeficiente')
-plt.title('Importancia de las características en el modelo de regresión logística')
-plt.savefig("feature_importance.png", dpi=120)
-plt.close()
-
-# --------------------------------------------
-# METRICS
-# --------------------------------------------
-y_pred = best_model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-
-with open("metrics.txt", 'w') as outfile:
-    outfile.write("Training accuracy: %2.1f%%\n" % accuracy)
-
-# --------------------------------------------
-# SERIALIZING
-# --------------------------------------------
-model_filename = 'model/logistic_regression_model.pkl'
-joblib.dump(best_model, model_filename)
+# Graficar la curva ROC
+plt.figure()
+plt.plot(fpr, tpr, color="blue", label=f"Curva ROC (AUC = {roc_auc:.2f})")
+plt.plot([0, 1], [0, 1], color="gray", linestyle="--")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Curva ROC")
+plt.legend(loc="lower right")
+plt.show()

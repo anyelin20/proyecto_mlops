@@ -1,36 +1,56 @@
-# api_modelo.py
-
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, status, HTTPException
+from fastapi.responses import JSONResponse
+import pandas as pd
 import joblib
-import numpy as np
 
-# Cargar el modelo guardado
+app = FastAPI(
+    title="Modelo de Clasificación de Phishing",
+    version="1.0.0"
+)
+
+# ------------------------------------------------------------
+# CARGAR EL MODELO
+# ------------------------------------------------------------
 modelo = joblib.load("notebooks/classification_model.joblib")
 
-# Crear la app de FastAPI
-app = FastAPI()
 
-class DatosEntrada(BaseModel):
-    num_words: float
-    num_unique_words: float
-    num_stopwords: float
-    num_links: float
-    num_unique_domains: float
-    num_email_addresses: float
-    num_spelling_errors: float
+@app.post("/api/v1/predecir-phishing", tags=["phishing"])
+async def predecir(
+    num_words: float,
+    num_unique_words: float,
+    num_stopwords: float,
+    num_links: float,
+    num_unique_domains: float,
+    num_email_addresses: float,
+    num_spelling_errors: float,
     num_urgent_keywords: float
+):
+    # Construir el diccionario con los valores recibidos
+    datos_dict = {
+        "num_words": num_words,
+        "num_unique_words": num_unique_words,
+        "num_stopwords": num_stopwords,
+        "num_links": num_links,
+        "num_unique_domains": num_unique_domains,
+        "num_email_addresses": num_email_addresses,
+        "num_spelling_errors": num_spelling_errors,
+        "num_urgent_keywords": num_urgent_keywords
+    }
 
-    
+    try:
+        # Convertir a DataFrame
+        df = pd.DataFrame([datos_dict])
 
-# Ruta para hacer predicciones
-@app.post("/predecir")
-def predecir(data: DatosEntrada):
-    entrada = np.array([[
-    data.num_words, data.num_unique_words, data.num_stopwords,
-    data.num_links, data.num_unique_domains, data.num_email_addresses,
-    data.num_spelling_errors, data.num_urgent_keywords
-]])
+        # Predecir con el modelo
+        prediccion = modelo.predict(df)
 
-    prediccion = modelo.predict(entrada)[0]
-    return {"prediccion": int(prediccion)}
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"prediccion": int(prediccion[0])}
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )

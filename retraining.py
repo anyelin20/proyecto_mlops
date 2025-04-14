@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 data = pd.read_csv("email_phishing_data.csv")
 
 # Separar las características (X) y la variable objetivo (y)
-X = data.drop("target", axis=1)  # Ajusta 'target' según tu archivo
+X = data.drop("target", axis=1)  # Ajusta 'target' según el  archivo
 y = data["target"]
 
 # Dividir los datos en conjunto de entrenamiento y prueba

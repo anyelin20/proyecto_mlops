@@ -1,9 +1,9 @@
 # Proyecto MLOps
 
 ## Integrantes del Equipo
-- Esteban Ramirez
-- Allan Montes
-- Anyelin Arias
+- Esteban Ramirez (Data Scientist)
+- Allan Montes (MLOps Engineer)
+- Anyelin Arias (Software Engineer)
 
 ## ✅ Checklist del Proyecto
 
@@ -17,6 +17,41 @@
 - [ ] Poner las instrucciones de ejecución y documentación del modelo de AI y el API (en caso de interface gráfica también se necesitan saber cuáles son los inputs y los outputs del modelo) en un `README.md` dentro del repositorio central.
 - [ ] Realizar el versionamiento del modelo y de los datos usando DVC o su herramienta de preferencia y los datos junto con el modelo deben estar subidos a un object storage de la nube de su preferencia (puede ser AWS S3).
 
+## Descripción del problema
+Utilizando características particulares de corres electrónicos de phising y de los que no son phising,
+se analizan con el fin de poder detectar posibles correos maliciosos.
+
+## Dataset
+Los datos utilizados para entrenar el modelo provienen de Kaggle:
+[Email Phishing Dataset](https://www.kaggle.com/datasets/ethancratchley/email-phishing-dataset?resource=download)
+
+El dataset contiene características extraídas de emails, como:
+
+`num_words:` Número de palabras en el email
+`num_unique_words:` Número de palabras únicas
+`num_stopwords:` Cantidad de palabras comunes (stopwords)
+`num_links:` Número de enlaces
+`num_unique_domains:` Cantidad de dominios únicos
+`num_email_addresses:` Número de direcciones de email
+`num_spelling_errors:` Cantidad de errores ortográficos
+`num_urgent_keywords:` Número de palabras que indican urgencia
+`label:` Etiqueta binaria (0: legítimo, 1: phishing)
+
+## Modelo de Machine Learning
+
+Para este proyecto se utilizó un **Random Forest Classifier**, optimizado mediante Grid Search para encontrar los mejores hiperparámetros.
+
+## Estructura del Repositorio
+
+```
+📁 proyecto_modelo/       # Folder del proyecto
+│── 📁 data/                 # Almacena el dataset
+│   ├── 📄 email_phishing_data.csv  # Dataset
+│── 📁 notebooks/            # Almacena Jupyter notebooks
+│   ├── 📓 classification_model.ipynb  # Modelo desarrollado
+│── 📄 .gitignore            # Git ignore file
+│── 📄 README.md             # Project documentation
+```
 
 ## Requerimientos
 

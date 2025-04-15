@@ -8,9 +8,9 @@
 ## ✅ Checklist del Proyecto
 
 - [x] El código de un modelo de AI para resolver un problema de machine learning o deep learning en un notebook de Python `.ipynb` o bien, la herramienta o lenguaje de su preferencia de su preferencia.
-- [ ] El script, software o código en general para automatizar el reentrenamiento del modelo.
+- [x] El script, software o código en general para automatizar el reentrenamiento del modelo.
 - [ ] El versionamiento del código que contenga el código realizado para el modelo de AI y el Script de reentrenamiento. Tomar en cuenta que en este versionamiento debe trabajar todo el equipo haciendo los pull requests necesarios en el branch de `develop`. También debe contener al menos el branch de `develop`, `staging` y `main` (o `master` como deseen trabajarlo).
-- [ ] Realización de un API para consumir el modelo de inteligencia artificial o bien, una interface gráfica web con Streamlit, ReactJS o el framework para GUIs web de su preferencia.
+- [x] Realización de un API para consumir el modelo de inteligencia artificial o bien, una interface gráfica web con Streamlit, ReactJS o el framework para GUIs web de su preferencia.
 - [ ] Realizar el sistema de conteinerización con Docker o de su preferencia, listo para el deployment.
 - [ ] Realizar la seguridad en la validación de entradas del API y análisis estático del código usando DeepSource o su herramienta de preferencia.
 - [ ] Debe realizar el CI/CD en Github Actions o su herramienta de preferencia (Jenkins, CircleCI, Gitlab, etc...) para el reentrenamiento del modelo y también para enviarlo al ambiente de desarrollo en un servidor en la nube de su preferencia (puede ser AWS EC2 o cualquier otro).
@@ -27,15 +27,15 @@ Los datos utilizados para entrenar el modelo provienen de Kaggle:
 
 El dataset contiene características extraídas de emails, como:
 
-`num_words:` Número de palabras en el email
-`num_unique_words:` Número de palabras únicas
-`num_stopwords:` Cantidad de palabras comunes (stopwords)
-`num_links:` Número de enlaces
-`num_unique_domains:` Cantidad de dominios únicos
-`num_email_addresses:` Número de direcciones de email
-`num_spelling_errors:` Cantidad de errores ortográficos
-`num_urgent_keywords:` Número de palabras que indican urgencia
-`label:` Etiqueta binaria (0: legítimo, 1: phishing)
+- `num_words:` Número de palabras en el email
+- `num_unique_words:` Número de palabras únicas
+- `num_stopwords:` Cantidad de palabras comunes (stopwords)
+- `num_links:` Número de enlaces
+- `num_unique_domains:` Cantidad de dominios únicos
+- `num_email_addresses:` Número de direcciones de email
+- `num_spelling_errors:` Cantidad de errores ortográficos
+- `num_urgent_keywords:` Número de palabras que indican urgencia
+- `label:` Etiqueta binaria (0: legítimo, 1: phishing)
 
 ## Modelo de Machine Learning
 

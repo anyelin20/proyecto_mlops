@@ -97,7 +97,7 @@ class PhishingModelOptimizado:
 
     def _generate_plots(self, X_test, y_test, y_probs):
         """Genera gráficos de evaluación"""
-        plot_dir = os.path.join("../proyecto_mlops/modelo_serializado", "plots")
+        plot_dir = os.path.join("../../modelo_serializado", "plots")
         os.makedirs(plot_dir, exist_ok=True)
 
         fpr, tpr, _ = roc_curve(y_test, y_probs)

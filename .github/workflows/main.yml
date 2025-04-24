@@ -13,11 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     container: docker://dvcorg/cml:latest
     env:
+      ############ESTO ACA SE DEBE CAMBIAR SOLAMENTE#####
       repo_token: ${{ secrets.GITHUBTOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-1
-
+   #######################################################
     steps:
       - uses: actions/checkout@v2
 
@@ -31,12 +32,12 @@ jobs:
       - name: Download data from S3
         run: |
           python3 download_data.py
-
+#####################################actualizar##########################
       - name: Configure DVC remote
         run: |
-          dvc remote add -f data-remote s3://napster-mlops-data-versioning
+          dvc remote add -f data-remote s3://Protecto-mlops-data-versioning
           dvc remote modify data-remote region us-east-1
-
+##########################################################################
       - name: Mark repo as safe
         run: |
           git config --global --add safe.directory /__w/mlops_retraining/mlops_retraining
@@ -46,10 +47,10 @@ jobs:
           VERSION=$(git tag | grep ^v | sort -V | tail -n 1 | sed 's/v//' || echo "0")
           NEXT_VERSION=$((VERSION + 1))
           dvc add data/data.csv
-          git config --global user.email "jorge.zapata@protonmail.com"
-          git config --global user.name "Napster"
+          git config --global user.email "allanmontes@outlook.es"
+          git config --global user.name "proyecto_final_mlops"
           git add data/data.csv.dvc .gitignore
-          git commit -m "Auto-track dataset via DVC - Version v$NEXT_VERSION"
+          git commit -m "dataset via DVC - Version v$NEXT_VERSION"
 
       - name: Push dataset to S3 via DVC
         run: |
@@ -80,9 +81,10 @@ jobs:
       - name: Login to dockerhub
         uses: docker/login-action@v2
         with:
+        ################################################
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+#######################################################
       - name: Build docker image
         run: docker build -t napsterz4/mlops-cancer-seccion1:dev .
 
@@ -104,6 +106,7 @@ jobs:
               docker stop breast-cancer
               docker rm breast-cancer
             fi
-            
+          ########################actualizar##############################################
             docker pull ${{ secrets.DOCKER_USERNAME }}/mlops-cancer-seccion1:dev
             docker run -d --name breast-cancer -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/mlops-cancer-seccion1:dev
+          ################################################################################################

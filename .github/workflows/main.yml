@@ -68,7 +68,7 @@ jobs:
           
           cml-send-comment report.md
 
-  build_docker_image:
+build_docker_image:
   needs: retraining_ai_model
   runs-on: ubuntu-latest
 

@@ -158,7 +158,7 @@ class PhishingModelOptimizado:
 
 
 def run_pipeline():
-    file_path = r"/proyecto_mlops/data/mini_email_phishing_data.csv"
+    file_path = r"C:\Users\User\Desktop\MLOPS\proyecto_mlops_clean\data\mini_email_phishing_data.csv"
     data = pd.read_csv(file_path)
 
     X = data.drop('label', axis=1)

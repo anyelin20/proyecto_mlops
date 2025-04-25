@@ -102,10 +102,10 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }} # este es el .pem que descargamos al crear el server
           script: |
             docker login -u '${{ secrets.DOCKER_USERNAME }}' -p '${{ secrets.DOCKER_PASSWORD }}'
-            if docker ps --all | grep phishing-classification; then
-              docker stop phishing-classification
-              docker rm phishing-classification
+            if docker ps --all | grep eloquent_hellman; then
+              docker stop eloquent_hellman
+              docker rm eloquent_hellman
             fi
             
             docker pull anyarias20/project-api:latest
-            docker run -d --name phishing-classification -p 8000:8000 anyarias20/project-api:latest
+            docker run -d --name eloquent_hellman -p 8000:8000 anyarias20/project-api:latest

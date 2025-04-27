@@ -20,9 +20,9 @@ def download_data_from_s3(bucket_name, remote_path, local_path):
 
 
 if __name__ == "__main__":
-    bucket_name = 'mlops-testing-course'
-    remote_path = 'data_scientific/data.csv'
-    local_path = 'data/data.csv'
+    bucket_name = 'mlops-proyecto-esteban'
+    remote_path = 'mini_email_phishing_data.csv'
+    local_path = 'data/mini_email_phishing_data.csv'
 
     create_data_folder()
     download_data_from_s3(bucket_name, remote_path, local_path)

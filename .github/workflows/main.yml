@@ -52,7 +52,7 @@ jobs:
           dvc add data/mini_email_phishing_data.csv
           git config --global user.email "allanmontes@outlook.es"
           git config --global user.name "proyecto_final_mlops"
-          git add data/mini_email_phishing_data.csv
+          git add data/mini_email_phishing_data.csv.dvc .gitignore
           git commit -m "dataset via DVC - Version v$NEXT_VERSION"
 
       - name: Push dataset to S3 via DVC

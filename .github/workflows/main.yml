@@ -49,10 +49,10 @@ jobs:
         run: |
           VERSION=$(git tag | grep ^v | sort -V | tail -n 1 | sed 's/v//' || echo "0")
           NEXT_VERSION=$((VERSION + 1))
-          dvc add data/data.csv
+          dvc add data/mini_email_phishing_data.csv
           git config --global user.email "allanmontes@outlook.es"
           git config --global user.name "proyecto_final_mlops"
-          git add data/data.csv.dvc .gitignore
+          git add data/mini_email_phishing_data.csv.dvc .gitignore
           git commit -m "dataset via DVC - Version v$NEXT_VERSION"
 
       - name: Push dataset to S3 via DVC

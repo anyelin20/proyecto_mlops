@@ -20,7 +20,7 @@ def download_data_from_s3(bucket_name, remote_path, local_path):
 
 
 if __name__ == "__main__":
-    bucket_name = 'mlops-proyecto-esteban'
+    bucket_name = 'mlops-proyecto-esteban-funcional'
     remote_path = 'mini_email_phishing_data.csv'
     local_path = 'data/mini_email_phishing_data.csv'
 

@@ -132,7 +132,7 @@ class PhishingModelOptimizado:
 
             self.metrics['top_features'] = feature_importance.head(10).to_dict()
 
-    def save_model(self, directory=r"C:\Users\User\Desktop\MLOPS\proyecto_mlops\modelo_serializado"):
+    def save_model(self, directory="modelo_serializado"):
         """Serializa el modelo, métricas y guarda gráficos"""
         os.makedirs(directory, exist_ok=True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -158,7 +158,7 @@ class PhishingModelOptimizado:
 
 
 def run_pipeline():
-    file_path = r"C:\Users\User\Desktop\MLOPS\proyecto_mlops_clean\data\mini_email_phishing_data.csv"
+    file_path = "data/mini_email_phishing_data.csv"
     data = pd.read_csv(file_path)
 
     X = data.drop('label', axis=1)

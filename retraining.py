@@ -96,14 +96,13 @@ class PhishingModelOptimizado:
         return self.metrics
 
     def _generate_plots(self, X_test, y_test, y_probs):
-        """Genera gráficos de evaluación"""
         plot_dir = os.path.join("../../modelo_serializado", "plots")
         os.makedirs(plot_dir, exist_ok=True)
 
         fpr, tpr, _ = roc_curve(y_test, y_probs)
         plt.figure(figsize=(8, 6))
         plt.plot(fpr, tpr, color='blue', lw=2,
-                 label=f'ROC Curve (AUC = {self.metrics["roc_auc"]:.2f})')
+                label=f'ROC Curve (AUC = {self.metrics["roc_auc"]:.2f})')
         plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
@@ -112,7 +111,8 @@ class PhishingModelOptimizado:
         plt.savefig(os.path.join(plot_dir, f"roc_curve_v{self.version}.png"), bbox_inches='tight', dpi=300)
         plt.close()
 
-        if self.feature_importances_ is not None:
+        if self.feature_importances_ is not None and len(self.feature_importances_) > 0:
+            print("Features Detected! :", self.feature_importances_)
             if isinstance(X_test, pd.DataFrame):
                 feature_names = X_test.columns
             else:
@@ -131,6 +131,9 @@ class PhishingModelOptimizado:
             plt.close()
 
             self.metrics['top_features'] = feature_importance.head(10).to_dict()
+        else:
+            print("No se generó el gráfico: no hay importancias de características.")
+
 
     def save_model(self, directory="modelo_serializado"):
         """Serializa el modelo, métricas y guarda gráficos"""

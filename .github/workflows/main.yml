@@ -68,7 +68,7 @@ jobs:
           
           echo "## Data visualization" >> report.md
           cml-publish modelo_serializado/plots/feature_importance_v1.0.png --md >> report.md
-          
+
           cml-send-comment report.md
 
   build_docker_image:

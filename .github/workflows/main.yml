@@ -61,6 +61,15 @@ jobs:
         run: |
           python3 retraining.py
 
+      - name: Check if charts are generated
+        run: |
+          if [ ! -f modelo_serializado/plots/feature_importance_v1.0.png ]; then
+            echo "Advertencia: el gráfico no fue generado. Creando imagen de marcador vacío."
+            mkdir -p modelo_serializado/plots
+            echo "Sin gráfico disponible" | convert -background white -fill black -font Helvetica -pointsize 20 label:@- modelo_serializado/plots/feature_importance_v1.0.png
+          fi
+
+
       - name: Generating report
         run: |
           echo "## Model metrics" > report.md

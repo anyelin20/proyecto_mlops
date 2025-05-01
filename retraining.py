@@ -156,14 +156,6 @@ class PhishingModelOptimizado:
 
         return model_filename
 
-        # Predecir de nuevo para generar el reporte legible
-        y_pred = phishing_model.model.predict(X_test)
-        report = classification_report(y_test, y_pred)
-
-        # Guardar en metrics.txt para que GitHub Actions lo lea
-        with open("metrics.txt", "w") as f:
-            f.write(report)
-
 def run_pipeline():
     file_path = "data/mini_email_phishing_data.csv"
     data = pd.read_csv(file_path)
@@ -178,6 +170,15 @@ def run_pipeline():
     phishing_model.evaluate(X_test, y_test)
     phishing_model.save_model()
 
+# ✅ Guardar métricas legibles para GitHub Actions
+    from sklearn.metrics import classification_report
+    y_pred = phishing_model.model.predict(X_test)
+    report = classification_report(y_test, y_pred)
+
+    with open("metrics.txt", "w") as f:
+        f.write(report)
+
+    phishing_model.save_model()
 
 if __name__ == "__main__":
     run_pipeline()
